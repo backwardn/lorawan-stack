@@ -1027,7 +1027,7 @@ func (ns *NetworkServer) handleJoinRequest(ctx context.Context, up *ttnpb.Uplink
 		}
 	}
 
-	js := ns.GetPeer(ctx, ttnpb.PeerInfo_JOIN_SERVER, dev.EndDeviceIdentifiers)
+	js := ns.GetPeer(ctx, ttnpb.ClusterRole_JOIN_SERVER, dev.EndDeviceIdentifiers)
 	if js == nil {
 		logger.Debug("Join Server peer not found")
 		return errJoinServerNotFound

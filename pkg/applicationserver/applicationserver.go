@@ -199,8 +199,8 @@ func (as *ApplicationServer) RegisterHandlers(s *runtime.ServeMux, conn *grpc.Cl
 }
 
 // Roles returns the roles that the Application Server fulfills.
-func (as *ApplicationServer) Roles() []ttnpb.PeerInfo_Role {
-	return []ttnpb.PeerInfo_Role{ttnpb.PeerInfo_APPLICATION_SERVER}
+func (as *ApplicationServer) Roles() []ttnpb.ClusterRole {
+	return []ttnpb.ClusterRole{ttnpb.ClusterRole_APPLICATION_SERVER}
 }
 
 // Subscribe subscribes an application or integration by its identifiers to the Application Server, and returns a
@@ -402,7 +402,7 @@ var errJSUnavailable = errors.DefineUnavailable("join_server_unavailable", "Join
 
 func (as *ApplicationServer) fetchAppSKey(ctx context.Context, ids ttnpb.EndDeviceIdentifiers, sessionKeyID []byte) (ttnpb.KeyEnvelope, error) {
 	// TODO: Lookup Join Server (https://github.com/TheThingsNetwork/lorawan-stack/issues/4)
-	js := as.GetPeer(ctx, ttnpb.PeerInfo_JOIN_SERVER, ids)
+	js := as.GetPeer(ctx, ttnpb.ClusterRole_JOIN_SERVER, ids)
 	if js == nil {
 		return ttnpb.KeyEnvelope{}, errJSUnavailable.WithAttributes("join_eui", *ids.JoinEUI)
 	}
