@@ -32,7 +32,7 @@ func TestMembershipStore(t *testing.T) {
 		prepareTest(db,
 			&Membership{},
 			&Account{}, &User{}, &Organization{},
-			&Application{}, &Client{}, &Gateway{},
+			&Application{}, &Client{}, &Cluster{}, &Gateway{},
 		)
 
 		s := newStore(db)
@@ -48,12 +48,14 @@ func TestMembershipStore(t *testing.T) {
 
 		s.createEntity(ctx, &Application{ApplicationID: "test-app"})
 		s.createEntity(ctx, &Client{ClientID: "test-cli"})
+		s.createEntity(ctx, &Cluster{ClusterID: "test-cls"})
 		s.createEntity(ctx, &Gateway{GatewayID: "test-gtw"})
 
 		s.createEntity(ctx, &User{Account: Account{UID: "other-user"}})
 		s.createEntity(ctx, &Organization{Account: Account{UID: "other-org"}})
 		s.createEntity(ctx, &Application{ApplicationID: "other-app"})
 		s.createEntity(ctx, &Client{ClientID: "other-cli"})
+		s.createEntity(ctx, &Cluster{ClusterID: "other-cls"})
 		s.createEntity(ctx, &Gateway{GatewayID: "other-gtw"})
 
 		for _, tt := range []struct {
@@ -87,6 +89,17 @@ func TestMembershipStore(t *testing.T) {
 				EntityType: "client",
 			},
 			{
+				Name:              "User-Cluster",
+				Identifiers:       usrIDs,
+				MemberIdentifiers: ttnpb.ClusterIdentifiers{ClusterID: "test-cls"},
+				Rights:            []ttnpb.Right{ttnpb.RIGHT_CLUSTER_ALL},
+				RightsUpdated: []ttnpb.Right{
+					ttnpb.RIGHT_CLUSTER_ALL,
+					ttnpb.RIGHT_APPLICATION_INFO,
+				},
+				EntityType: "cluster",
+			},
+			{
 				Name:              "User-Gateway",
 				Identifiers:       usrIDs,
 				MemberIdentifiers: ttnpb.GatewayIdentifiers{GatewayID: "test-gtw"},
@@ -109,6 +122,7 @@ func TestMembershipStore(t *testing.T) {
 				RightsUpdated: []ttnpb.Right{
 					ttnpb.RIGHT_APPLICATION_ALL,
 					ttnpb.RIGHT_CLIENT_ALL,
+					ttnpb.RIGHT_CLUSTER_ALL,
 					ttnpb.RIGHT_GATEWAY_ALL,
 					ttnpb.RIGHT_ORGANIZATION_ALL,
 				},
@@ -135,6 +149,17 @@ func TestMembershipStore(t *testing.T) {
 					ttnpb.RIGHT_APPLICATION_INFO,
 				},
 				EntityType: "client",
+			},
+			{
+				Name:              "Organization-Cluster",
+				Identifiers:       orgIDs,
+				MemberIdentifiers: ttnpb.ClusterIdentifiers{ClusterID: "test-cls"},
+				Rights:            []ttnpb.Right{ttnpb.RIGHT_CLUSTER_ALL},
+				RightsUpdated: []ttnpb.Right{
+					ttnpb.RIGHT_CLUSTER_ALL,
+					ttnpb.RIGHT_APPLICATION_INFO,
+				},
+				EntityType: "cluster",
 			},
 			{
 				Name:              "Organization-Gateway",
@@ -260,6 +285,12 @@ func TestMembershipStore(t *testing.T) {
 				EntityType:        "client",
 			},
 			{
+				Name:              "User-Cluster - user not found",
+				Identifiers:       userNotFoundIDs,
+				MemberIdentifiers: ttnpb.ClusterIdentifiers{ClusterID: "test-cls"},
+				EntityType:        "cluster",
+			},
+			{
 				Name:              "User-Gateway - user not found",
 				Identifiers:       userNotFoundIDs,
 				MemberIdentifiers: ttnpb.GatewayIdentifiers{GatewayID: "test-gtw"},
@@ -282,6 +313,12 @@ func TestMembershipStore(t *testing.T) {
 				Identifiers:       organizationNotFoundIDs,
 				MemberIdentifiers: ttnpb.ClientIdentifiers{ClientID: "test-cli"},
 				EntityType:        "client",
+			},
+			{
+				Name:              "Organization-Cluster - organization not found",
+				Identifiers:       organizationNotFoundIDs,
+				MemberIdentifiers: ttnpb.ClusterIdentifiers{ClusterID: "test-cls"},
+				EntityType:        "cluster",
 			},
 			{
 				Name:              "Organization-Gateway - organization not found",
@@ -326,6 +363,12 @@ func TestMembershipStore(t *testing.T) {
 				EntityType:        "client",
 			},
 			{
+				Name:              "User-Cluster - cluster not found",
+				Identifiers:       usrIDs,
+				MemberIdentifiers: ttnpb.ClusterIdentifiers{ClusterID: "test-cls-not-found"},
+				EntityType:        "cluster",
+			},
+			{
 				Name:              "User-Gateway - gateway not found",
 				Identifiers:       usrIDs,
 				MemberIdentifiers: ttnpb.GatewayIdentifiers{GatewayID: "test-gtw-not-found"},
@@ -348,6 +391,12 @@ func TestMembershipStore(t *testing.T) {
 				Identifiers:       orgIDs,
 				MemberIdentifiers: ttnpb.ClientIdentifiers{ClientID: "test-cli-not-found"},
 				EntityType:        "client",
+			},
+			{
+				Name:              "Organization-Cluster - cluster not found",
+				Identifiers:       orgIDs,
+				MemberIdentifiers: ttnpb.ClusterIdentifiers{ClusterID: "test-cls-not-found"},
+				EntityType:        "cluster",
 			},
 			{
 				Name:              "Organization-Gateway - gateway not found",

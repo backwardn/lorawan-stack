@@ -73,7 +73,7 @@ func (s *store) findIdentifiers(entities ...polymorphicEntity) (map[polymorphicE
 func findIdentifiers(db *gorm.DB, entities ...polymorphicEntity) (map[polymorphicEntity]ttnpb.Identifiers, error) {
 	var err error
 	identifiers := make(map[polymorphicEntity]ttnpb.Identifiers, len(entities))
-	for _, entityType := range []string{"application", "client", "gateway", "organization", "user"} {
+	for _, entityType := range []string{"application", "client", "cluster", "gateway", "organization", "user"} {
 		uuids := make([]string, 0, len(entities))
 		for _, entity := range entities {
 			if entity.EntityType != entityType {
@@ -107,6 +107,8 @@ func findIdentifiers(db *gorm.DB, entities ...polymorphicEntity) (map[polymorphi
 				identifiers[entity] = ttnpb.ApplicationIdentifiers{ApplicationID: result.FriendlyID}
 			case "client":
 				identifiers[entity] = ttnpb.ClientIdentifiers{ClientID: result.FriendlyID}
+			case "cluster":
+				identifiers[entity] = ttnpb.ClusterIdentifiers{ClusterID: result.FriendlyID}
 			case "gateway":
 				identifiers[entity] = ttnpb.GatewayIdentifiers{GatewayID: result.FriendlyID}
 			case "organization":
