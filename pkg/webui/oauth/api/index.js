@@ -29,6 +29,12 @@ export default {
     async register (userData) {
       return axios.post(`/api/v3/users`, userData)
     },
+    async reset_password (user_id) {
+      return axios.post(`/api/v3/users/${user_id}/temporary_password`)
+    },
+    async update_password (user_id, passwordData) {
+      return axios.put(`/api/v3/users/${user_id}/password`, passwordData)
+    },
   },
   oauth: {
     login (credentials) {
