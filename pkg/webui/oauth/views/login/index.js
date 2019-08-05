@@ -17,7 +17,7 @@ import { withRouter } from 'react-router-dom'
 import bind from 'autobind-decorator'
 import Query from 'query-string'
 import { defineMessages } from 'react-intl'
-import { replace } from 'connected-react-router'
+import { replace, push } from 'connected-react-router'
 import { connect } from 'react-redux'
 import * as Yup from 'yup'
 
@@ -37,6 +37,7 @@ import style from './login.styl'
 
 const m = defineMessages({
   createAccount: 'Create an account',
+  forgotPassword: 'Forgot password?',
   loginToContinue: 'Please login to continue',
   stackAccount: 'TTN Stack Account',
 })
@@ -51,7 +52,10 @@ const validationSchema = Yup.object().shape({
 const appRoot = selectApplicationRootPath()
 
 @withRouter
-@connect()
+@connect(null, {
+  push,
+  replace,
+})
 @bind
 export default class OAuth extends React.PureComponent {
   constructor (props) {
@@ -80,6 +84,13 @@ export default class OAuth extends React.PureComponent {
     dispatch(replace('/register', {
       back: `${location.pathname}${location.search}`,
     }))
+  }
+
+  navigateToResetPassword () {
+    const { replace, location } = this.props
+    replace('/forgot-password', {
+      back: `${location.pathname}${location.search}`,
+    })
   }
 
   render () {
@@ -130,6 +141,7 @@ export default class OAuth extends React.PureComponent {
                 message={sharedMessages.login}
               />
               <Button naked message={m.createAccount} onClick={this.navigateToRegister} />
+              <Button naked message={m.forgotPassword} onClick={this.navigateToResetPassword} />
             </Form>
           </div>
         </div>
