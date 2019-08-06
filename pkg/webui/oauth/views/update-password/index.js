@@ -16,7 +16,7 @@ import React from 'react'
 import { Container, Col, Row } from 'react-grid-system'
 import bind from 'autobind-decorator'
 import { defineMessages } from 'react-intl'
-import { push, replace } from 'connected-react-router'
+import { push } from 'connected-react-router'
 import { connect } from 'react-redux'
 import * as Yup from 'yup'
 import queryString from 'query-string'
@@ -33,7 +33,8 @@ import IntlHelmet from '../../../lib/components/intl-helmet'
 import Message from '../../../lib/components/message'
 import style from '../create-account/create-account.styl'
 import Checkbox from '../../../components/checkbox'
-import Spinner from '../../../components/spinner';
+import Spinner from '../../../components/spinner'
+import PropTypes from '../../../lib/prop-types'
 
 const m = defineMessages({
   newPassword: 'New Password',
@@ -66,12 +67,20 @@ const initialValues = {
 @connect(state => ({
   fetching: state.user.fetching,
   user: state.user.user,
-  }), {
-    push,
-    replace,
+}), {
+  handleCancelUpdate: () => push('/'),
+  push,
 })
 @bind
 export default class UpdatePassword extends React.PureComponent {
+
+  static propTypes = {
+    fetching: PropTypes.bool.isRequired,
+    user: PropTypes.object,
+    handleCancelUpdate: PropTypes.func.isRequired,
+    push: PropTypes.func.isRequired,
+  }
+
   constructor (props) {
     super(props)
 
@@ -87,15 +96,15 @@ export default class UpdatePassword extends React.PureComponent {
   }
 
   async handleSubmit (values, { setSubmitting }) {
-    const { user } = this.props
+    const { user, push } = this.props
     const userParams = queryString.parse(this.props.location.search)
-    const old_or_temp = values.old_password ? values.old_password : userParams.current
-    const user_id = Boolean(user) ? user.ids.user_id : userParams.user
+    const oldPassword = values.old_password ? values.old_password : userParams.current
+    const userId = Boolean(user) ? user.ids.user_id : userParams.user
     try {
-      await api.users.update_password( user_id, {
-        user_ids: { 'user_id': user_id },
+      await api.users.updatePassword( userId, {
+        user_ids: { user_id: userId },
         'new': values.password,
-        old: old_or_temp,
+        old: oldPassword,
         revoke_all_access: values.revoke_all_access,
       })
       if (Boolean(user)) {
@@ -110,7 +119,6 @@ export default class UpdatePassword extends React.PureComponent {
         })
       }
     } catch (error) {
-      console.log(error)
       this.setState({
         error: error.response.data,
         info: '',
@@ -121,9 +129,7 @@ export default class UpdatePassword extends React.PureComponent {
   }
 
   handleCancel () {
-    const { replace } = this.props
-
-    replace('/')
+    this.props.handleCancelUpdate()
   }
 
   render () {
@@ -138,11 +144,27 @@ export default class UpdatePassword extends React.PureComponent {
       revoke_all_access,
     } = this.state
 
+    let oldPasswordField
+
     if (fetching) {
       return (
         <Spinner center>
           <Message content={sharedMessages.loading} />
         </Spinner>
+      )
+    }
+
+    if (Boolean(user)) {
+      oldPasswordField = (
+        <Form.Field
+          component={Input}
+          required
+          title={m.oldPassword}
+          name="old_password"
+          type="password"
+          autoComplete="old-password"
+          autoFocus
+        />
       )
     }
 
@@ -160,17 +182,7 @@ export default class UpdatePassword extends React.PureComponent {
               validationSchema={validationSchema}
               horizontal={false}
             >
-              {Boolean(user) &&
-                <Form.Field
-                  component={Input}
-                  required
-                  title={m.oldPassword}
-                  name="old_password"
-                  type="password"
-                  autoComplete="old-password"
-                  autoFocus
-                />
-              }
+              {oldPasswordField}
               <Form.Field
                 component={Input}
                 required

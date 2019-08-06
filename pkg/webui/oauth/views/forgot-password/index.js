@@ -29,6 +29,7 @@ import Input from '../../../components/input'
 import SubmitButton from '../../../components/submit-button'
 import IntlHelmet from '../../../lib/components/intl-helmet'
 import Message from '../../../lib/components/message'
+import PropTypes from '../../../lib/prop-types'
 
 import style from './forgot-password.styl'
 
@@ -46,9 +47,16 @@ const validationSchema = Yup.object().shape({
     .required(sharedMessages.validateRequired),
 })
 
-@connect(null, { push })
+@connect(null, {
+  handleCancel: () => push('/login'),
+})
 @bind
 export default class ForgotPassword extends React.PureComponent {
+
+  static propTypes = {
+    handleCancel: PropTypes.func.isRequired,
+  }
+
   constructor (props) {
     super(props)
 
@@ -61,7 +69,7 @@ export default class ForgotPassword extends React.PureComponent {
 
   async handleSubmit (values, { setSubmitting }) {
     try {
-      await api.users.reset_password(values.user_id)
+      await api.users.resetPassword(values.user_id)
       this.setState({
         error: '',
         info: m.passwordRequested,
@@ -78,9 +86,7 @@ export default class ForgotPassword extends React.PureComponent {
   }
 
   navigateToLogin () {
-    const { push } = this.props
-
-    push('/login')
+    this.props.handleCancel()
   }
 
   render () {
