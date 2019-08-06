@@ -77,7 +77,7 @@ export default class OAuthApp extends React.PureComponent {
                     <Route path="/register" component={CreateAccount} />
                     <Route path="/forgot-password" component={ForgotPassword} />
                     <Route path="/code" component={Code} />
-                    <Route path="/update-password" component={UpdatePassword}/>
+                    <Route path="/update-password" component={UpdatePassword} />
                     <Route component={GenericNotFound} />
                   </Switch>
                 </ConnectedRouter>
