@@ -147,26 +147,24 @@ class DeviceOverview extends React.Component {
     )
   }
 
-  get deviceMap() {
+  get deviceMap () {
     const {
       ids,
       description,
       locations,
     } = this.props.device
 
-    const mapData = locations ? {
-      'markers' : [
+    const markers = locations
+      ? [
         {
-          'name': description,
-          'position': locations.user,
+          name: description,
+          position: locations.user,
         },
-      ],
-      'position': locations.user,
-    } : false
+      ] : false
 
-    if (mapData) {
+    if (markers) {
       return (
-        <DeviceMap devIds={ids} mapData={mapData} />
+        <DeviceMap devIds={ids} markers={markers} />
       )
     }
   }

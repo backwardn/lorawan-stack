@@ -19,34 +19,36 @@ import style from './map.styl'
 
 class Map extends React.Component {
 
-  constructor(props){
-    super(props);
+  getMapCenter (markers) {
+    return markers[0]
   }
 
   componentDidMount () {
-    const { mapData } = this.props 
+    const { markers } = this.props
+    const { position } = ( markers.length >= 1 ) ? this.getMapCenter(markers) : markers[0]
+
     // create map
     this.map = L.map('map', {
-      center: [ mapData.position.latitude, mapData.position.longitude ],
+      center: [ position.latitude, position.longitude ],
       zoom: 11,
       layers: [
         L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
         }),
       ],
-      zoomControl:false,
+      zoomControl: false,
     })
 
-    mapData.markers.map(maker => {
-      L.marker([maker.position.latitude, maker.position.longitude ])
+    markers.map(maker =>
+      L.marker([ maker.position.latitude, maker.position.longitude ])
         .bindPopup( maker.name )
         .addTo(this.map)
-    })
+    )
   }
 
   render () {
     return (
-        <div className={style.map} id="map" />
+      <div className={style.map} id="map" />
     )
   }
 }

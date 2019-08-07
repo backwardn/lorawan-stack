@@ -31,7 +31,7 @@ class DeviceMap extends React.Component {
   render () {
     const {
       devIds,
-      mapData
+      markers,
     } = this.props
 
     const devId = getDeviceId(devIds)
@@ -52,7 +52,7 @@ class DeviceMap extends React.Component {
             →
           </Link>
         </div>
-        <Map devIds={devIds} mapData={mapData}/>
+        <Map devIds={devIds} markers={markers} />
       </aside>
     )
 
