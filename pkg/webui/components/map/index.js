@@ -17,6 +17,13 @@ import L from 'leaflet'
 
 import style from './map.styl'
 
+// Fix broken links to leaflet images.
+delete L.Icon.Default.prototype._getIconUrl
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+  iconUrl: require('leaflet/dist/images/marker-icon.png'),
+  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+})
 class Map extends React.Component {
 
   getMapCenter (markers) {
@@ -48,7 +55,10 @@ class Map extends React.Component {
 
   render () {
     return (
-      <div className={style.map} id="map" />
+      <div className={style.mapContainer}>
+        <div className={style.map} id="map" />
+      </div>
+
     )
   }
 }
