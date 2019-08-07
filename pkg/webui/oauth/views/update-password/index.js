@@ -14,6 +14,7 @@
 
 import React from 'react'
 import { Container, Col, Row } from 'react-grid-system'
+import { Redirect } from 'react-router-dom'
 import bind from 'autobind-decorator'
 import { defineMessages } from 'react-intl'
 import { push } from 'connected-react-router'
@@ -144,6 +145,8 @@ export default class UpdatePassword extends React.PureComponent {
       revoke_all_access,
     } = this.state
 
+    const userParams = queryString.parse(this.props.location.search)
+
     let oldPasswordField
 
     if (fetching) {
@@ -164,6 +167,12 @@ export default class UpdatePassword extends React.PureComponent {
           type="password"
           autoComplete="old-password"
           autoFocus
+        />
+      )
+    } else if (!userParams.user || !userParams.current) {
+      return (
+        <Redirect
+          to={{ pathname: '/' }}
         />
       )
     }
