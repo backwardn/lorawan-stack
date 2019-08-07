@@ -61,7 +61,7 @@ const initialValues = {
   password: '',
   confirm: '',
   password_changed: false,
-  revoke_all_access: false,
+  revoke_all_access: true,
 }
 
 @connect(state => ({
@@ -87,7 +87,7 @@ export default class UpdatePassword extends React.PureComponent {
     this.state = {
       error: '',
       info: '',
-      revoke_all_access: false,
+      revoke_all_access: true,
     }
   }
 
