@@ -39,7 +39,7 @@ import PropTypes from '../../../lib/prop-types'
 
 const m = defineMessages({
   newPassword: 'New Password',
-  oldPassword: 'Temporary or Old Password',
+  oldPassword: 'Old Password',
   passwordChanged: 'Password changed successfully',
   revokeAllAccess: 'Log out from all devices',
   revokeWarning: 'This will revoke access from all logged in devices',
@@ -96,7 +96,7 @@ export default class UpdatePassword extends React.PureComponent {
     this.setState({ revoke_all_access: evt.target.checked })
   }
 
-  async handleSubmit (values, { setSubmitting }) {
+  async handleSubmit (values, { resetForm, setSubmitting }) {
     const { user, push } = this.props
     const userParams = queryString.parse(this.props.location.search)
     const oldPassword = values.old_password ? values.old_password : userParams.current
@@ -114,6 +114,7 @@ export default class UpdatePassword extends React.PureComponent {
           info: m.passwordChanged,
           changed: true,
         })
+        resetForm(initialValues)
       } else {
         push('/login', {
           info: m.passwordChanged,
@@ -124,7 +125,6 @@ export default class UpdatePassword extends React.PureComponent {
         error: error.response.data,
         info: '',
       })
-    } finally {
       setSubmitting(false)
     }
   }
@@ -199,7 +199,7 @@ export default class UpdatePassword extends React.PureComponent {
                 name="password"
                 type="password"
                 autoComplete="new-password"
-                autoFocus
+                autoFocus={!Boolean(user)}
               />
               <Form.Field
                 component={Input}

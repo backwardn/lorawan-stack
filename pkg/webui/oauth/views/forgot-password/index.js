@@ -37,8 +37,9 @@ const m = defineMessages({
   loginPage: 'Login Page',
   forgotPassword: 'Forgot Password',
   passwordRequested: 'You will receive an email with reset instructions shortly.',
-  resetPassword: 'Send',
-  resetPasswordDescription: 'Please enter your username to receive email with reset instructions',
+  goToLogin: 'Go to Login',
+  send: 'Send',
+  resetPasswordDescription: 'Please enter your username to receive an email with reset instructions',
   requestTempPassword: 'Reset Password',
 })
 
@@ -92,7 +93,7 @@ export default class ForgotPassword extends React.PureComponent {
   render () {
     const { error, info, requested } = this.state
     const initialUserId = { user_id: '' }
-    const cancelButtonText = requested ? m.resetPassword : sharedMessages.cancel
+    const cancelButtonText = requested ? m.goToLogin : sharedMessages.cancel
 
     return (
       <Container className={style.fullHeight}>
@@ -118,7 +119,7 @@ export default class ForgotPassword extends React.PureComponent {
               />
               <Form.Submit
                 component={SubmitButton}
-                message={m.resetPassword}
+                message={m.send}
               />
               <Button naked secondary message={cancelButtonText} onClick={this.navigateToLogin} />
             </Form>
