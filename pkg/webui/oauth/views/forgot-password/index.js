@@ -86,10 +86,6 @@ export default class ForgotPassword extends React.PureComponent {
     }
   }
 
-  navigateToLogin () {
-    this.props.handleCancel()
-  }
-
   render () {
     const { error, info, requested } = this.state
     const initialUserId = { user_id: '' }
@@ -121,7 +117,7 @@ export default class ForgotPassword extends React.PureComponent {
                 component={SubmitButton}
                 message={m.send}
               />
-              <Button naked secondary message={cancelButtonText} onClick={this.navigateToLogin} />
+              <Button naked secondary message={cancelButtonText} onClick={this.props.handleCancel} />
             </Form>
           </Col>
         </Row>
