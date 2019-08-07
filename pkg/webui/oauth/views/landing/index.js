@@ -25,9 +25,7 @@ import sharedMessages from '../../../lib/shared-messages'
 
 @connect(state => ({
   user: state.user.user,
-}), {
-  push,
-})
+}))
 @bind
 export default class OAuth extends React.PureComponent {
 
@@ -38,8 +36,9 @@ export default class OAuth extends React.PureComponent {
   }
 
   async handleUpdatePassword () {
-    const { push } = this.props
-    push('/update-password')
+    const { dispatch } = this.props
+
+    dispatch(push('/update-password'))
   }
 
   render () {
