@@ -25,6 +25,7 @@ import Message from '../../../lib/components/message'
 import DataSheet from '../../../components/data-sheet'
 import DateTime from '../../../lib/components/date-time'
 import DeviceEvents from '../../containers/device-events'
+import DeviceMap from '../../containers/device-map'
 
 import style from './device-overview.styl'
 
@@ -146,6 +147,30 @@ class DeviceOverview extends React.Component {
     )
   }
 
+  get deviceMap() {
+    const {
+      ids,
+      description,
+      locations,
+    } = this.props.device
+
+    const mapData = locations ? {
+      'markers' : [
+        {
+          'name': description,
+          'position': locations.user,
+        },
+      ],
+      'position': locations.user,
+    } : false
+
+    if (mapData) {
+      return (
+        <DeviceMap devIds={ids} mapData={mapData} />
+      )
+    }
+  }
+
   render () {
     const { device } = this.props
     const devIds = device && device.ids
@@ -161,6 +186,7 @@ class DeviceOverview extends React.Component {
           </Col>
           <Col md={12} lg={6} className={style.latestEvents}>
             <DeviceEvents devIds={devIds} widget />
+            {this.deviceMap}
           </Col>
         </Row>
       </Container>
