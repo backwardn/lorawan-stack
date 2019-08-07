@@ -17,7 +17,7 @@ import { withRouter } from 'react-router-dom'
 import bind from 'autobind-decorator'
 import Query from 'query-string'
 import { defineMessages } from 'react-intl'
-import { replace, push } from 'connected-react-router'
+import { replace } from 'connected-react-router'
 import { connect } from 'react-redux'
 import * as Yup from 'yup'
 
@@ -53,7 +53,6 @@ const appRoot = selectApplicationRootPath()
 
 @withRouter
 @connect(null, {
-  push,
   replace,
 })
 @bind
@@ -80,10 +79,10 @@ export default class OAuth extends React.PureComponent {
   }
 
   navigateToRegister () {
-    const { dispatch, location } = this.props
-    dispatch(replace('/register', {
+    const { replace, location } = this.props
+    replace('/register', {
       back: `${location.pathname}${location.search}`,
-    }))
+    })
   }
 
   navigateToResetPassword () {
