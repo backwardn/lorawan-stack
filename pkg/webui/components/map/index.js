@@ -48,9 +48,9 @@ class Map extends React.Component {
       zoomControl: false,
     })
 
-    markers.map(maker =>
-      L.marker([ maker.position.latitude, maker.position.longitude ])
-        .bindPopup( maker.name )
+    markers.map(marker =>
+      L.marker([ marker.position.latitude, marker.position.longitude ])
+        .bindPopup( marker.name )
         .addTo(this.map)
     )
   }
