@@ -41,6 +41,7 @@ import webhook from './webhook'
 import webhooks from './webhooks'
 import webhookFormats from './webhook-formats'
 import { createNamedPaginationReducer } from './pagination'
+import js from './join-server'
 
 export default combineReducers({
   user,
@@ -89,4 +90,5 @@ export default combineReducers({
       getGatewayId
     ),
   }),
+  js,
 })

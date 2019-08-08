@@ -12,22 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import user from './user'
-import init from './init'
-import applications from './applications'
-import devices from './devices'
-import device from './device'
-import gateways from './gateways'
-import configuration from './configuration'
-import js from './join-server'
+import * as js from '../../actions/join-server'
+import api from '../../../api'
+
+import createRequestLogic from './lib'
+
+const getJoinEUIPrefixesLogic = createRequestLogic({
+  type: js.GET_JOIN_EUI_PREFIXES,
+  async process () {
+    const { prefixes } = await api.js.joinEUIPrefixes.list()
+
+    return prefixes
+  },
+})
 
 export default [
-  ...user,
-  ...init,
-  ...applications,
-  ...devices,
-  ...device,
-  ...gateways,
-  ...configuration,
-  ...js,
+  getJoinEUIPrefixesLogic,
 ]
