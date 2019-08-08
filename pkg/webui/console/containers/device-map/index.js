@@ -55,7 +55,6 @@ class DeviceMap extends React.Component {
         <Map devIds={devIds} markers={markers} />
       </aside>
     )
-
   }
 }
 

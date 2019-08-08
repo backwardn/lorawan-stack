@@ -27,6 +27,8 @@ L.Icon.Default.mergeOptions({
 class Map extends React.Component {
 
   getMapCenter (markers) {
+    // This will calculate and zoom and map center long/lang based on all markers provided.
+    // Currenlty its just returns the first marker.
     return markers[0]
   }
 
@@ -58,7 +60,6 @@ class Map extends React.Component {
       <div className={style.mapContainer}>
         <div className={style.map} id="map" />
       </div>
-
     )
   }
 }
