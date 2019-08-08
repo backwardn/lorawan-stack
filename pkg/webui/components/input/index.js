@@ -25,7 +25,6 @@ import Toggled from './toggled'
 
 import style from './input.styl'
 
-@injectIntl
 @bind
 class Input extends React.Component {
   static propTypes = {
@@ -206,4 +205,4 @@ const Valid = function (props) {
 
 Input.Toggled = Toggled
 
-export default Input
+export default injectIntl(Input, { withRef: true })

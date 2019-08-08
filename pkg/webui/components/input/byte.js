@@ -96,6 +96,8 @@ export default class ByteInput extends React.Component {
     max: PropTypes.number,
   }
 
+  input = React.createRef()
+
   static validate (value, props) {
     const { min = 0, max = 256 } = props
     const len = Math.floor(value.length / 2)
@@ -124,6 +126,7 @@ export default class ByteInput extends React.Component {
         placeholder={placeholder}
       />,
       <MaskedInput
+        ref={this.input}
         key="input"
         className={classnames(className, style.byte)}
         value={value}
@@ -138,6 +141,14 @@ export default class ByteInput extends React.Component {
         {...rest}
       />,
     ]
+  }
+
+  focus () {
+    if (this.input.current && this.input.current.inputElement) {
+      const { inputElement } = this.input.current
+
+      inputElement.focus()
+    }
   }
 
   onChange (evt) {
