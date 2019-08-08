@@ -36,6 +36,9 @@ class DeviceMap extends React.Component {
 
     const devId = getDeviceId(devIds)
     const appId = getApplicationId(devIds)
+    const leafletConfig = {
+      zoomControl: false,
+    }
 
     return (
       <aside className={style.wrapper}>
@@ -52,7 +55,7 @@ class DeviceMap extends React.Component {
             →
           </Link>
         </div>
-        <Map devIds={devIds} markers={markers} />
+        <Map devIds={devIds} markers={markers} leafletConfig={leafletConfig} />
       </aside>
     )
   }
