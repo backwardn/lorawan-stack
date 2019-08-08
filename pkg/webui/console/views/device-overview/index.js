@@ -158,7 +158,10 @@ class DeviceOverview extends React.Component {
       ? [
         {
           name: description,
-          position: locations.user,
+          position: {
+            latitude: ( locations.user.latitude || 0),
+            longitude: ( locations.user.longitude || 0),
+          },
         },
       ] : false
 
