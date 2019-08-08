@@ -55,7 +55,7 @@ class DeviceMap extends React.Component {
             →
           </Link>
         </div>
-        <Map devIds={devIds} markers={markers} leafletConfig={leafletConfig} />
+        <Map markers={markers} leafletConfig={leafletConfig} />
       </aside>
     )
   }
