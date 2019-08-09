@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import React from 'react'
+import classnames from 'classnames'
 import L from 'leaflet'
 
 import style from './map.styl'
@@ -33,7 +34,9 @@ class Map extends React.Component {
   }
 
   componentDidMount () {
-    const { markers } = this.props
+    const {
+      markers,
+    } = this.props
     const { position } = ( markers.length >= 1 ) ? this.getMapCenter(markers) : markers[0]
 
     // create map
@@ -56,9 +59,13 @@ class Map extends React.Component {
   }
 
   render () {
+    const {
+      widget,
+    } = this.props
+
     return (
       <div className={style.mapContainer}>
-        <div className={style.map} id="map" />
+        <div className={classnames( style.map, { [style.mapWidget]: widget })} id="map" />
       </div>
     )
   }

@@ -27,7 +27,7 @@ const m = defineMessages({
   changeLocation: 'Change Location',
 })
 
-class DeviceMap extends React.Component {
+class DeviceMapWidget extends React.Component {
   render () {
     const {
       devIds,
@@ -55,10 +55,10 @@ class DeviceMap extends React.Component {
             →
           </Link>
         </div>
-        <Map markers={markers} leafletConfig={leafletConfig} />
+        <Map markers={markers} leafletConfig={leafletConfig} widget />
       </aside>
     )
   }
 }
 
-export default DeviceMap
+export default DeviceMapWidget

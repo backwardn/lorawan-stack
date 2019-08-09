@@ -25,7 +25,7 @@ import Message from '../../../lib/components/message'
 import DataSheet from '../../../components/data-sheet'
 import DateTime from '../../../lib/components/date-time'
 import DeviceEvents from '../../containers/device-events'
-import DeviceMap from '../../containers/device-map'
+import DeviceMapWidget from '../../containers/device-map'
 
 import style from './device-overview.styl'
 
@@ -167,7 +167,7 @@ class DeviceOverview extends React.Component {
 
     if (markers) {
       return (
-        <DeviceMap devIds={ids} markers={markers} />
+        <DeviceMapWidget devIds={ids} markers={markers} />
       )
     }
   }
