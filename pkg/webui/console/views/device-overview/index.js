@@ -147,31 +147,6 @@ class DeviceOverview extends React.Component {
     )
   }
 
-  get deviceMap () {
-    const {
-      ids,
-      description,
-      locations,
-    } = this.props.device
-
-    const markers = locations
-      ? [
-        {
-          name: description,
-          position: {
-            latitude: ( locations.user.latitude || 0),
-            longitude: ( locations.user.longitude || 0),
-          },
-        },
-      ] : false
-
-    if (markers) {
-      return (
-        <DeviceMapWidget devIds={ids} markers={markers} />
-      )
-    }
-  }
-
   render () {
     const { device } = this.props
     const devIds = device && device.ids
@@ -187,7 +162,7 @@ class DeviceOverview extends React.Component {
           </Col>
           <Col md={12} lg={6} className={style.latestEvents}>
             <DeviceEvents devIds={devIds} widget />
-            {this.deviceMap}
+            <DeviceMapWidget devIds={devIds} locations={device.locations} />
           </Col>
         </Row>
       </Container>

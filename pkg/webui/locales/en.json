@@ -89,6 +89,7 @@
   "console.containers.collaborators-table.index.id": "User / Organization ID",
   "console.containers.device-map.index.location": "Location",
   "console.containers.device-map.index.changeLocation": "Change Location",
+  "console.containers.device-map.index.noLocation": "No location information available",
   "console.containers.freq-plans-select.index.freqPlansFetchingFailure": "Could not retrieve the list of available frequency plans",
   "console.containers.webhook-formats-select.index.formatFetchingFailure": "Could not retrieve the list of available webhook formats",
   "console.containers.webhooks-table.index.format": "Format",

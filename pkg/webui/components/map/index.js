@@ -14,13 +14,13 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import L from 'leaflet'
+import Leaflet from 'leaflet'
 
 import style from './map.styl'
 
 // Fix broken links to leaflet images.
-delete L.Icon.Default.prototype._getIconUrl
-L.Icon.Default.mergeOptions({
+delete Leaflet.Icon.Default.prototype._getIconUrl
+Leaflet.Icon.Default.mergeOptions({
   iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
   iconUrl: require('leaflet/dist/images/marker-icon.png'),
   shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
@@ -33,30 +33,42 @@ class Map extends React.Component {
     return markers[0]
   }
 
+  createMap (config, id) {
+    this.map = Leaflet.map( id, {
+      ...config,
+    })
+  }
+
+  createMarkers (markers) {
+    markers.map(marker =>
+      Leaflet.marker([ marker.position.latitude, marker.position.longitude ])
+        .addTo(this.map)
+    )
+  }
+
   componentDidMount () {
     const {
       id,
       markers,
     } = this.props
+
     const { position } = ( markers.length >= 1 ) ? this.getMapCenter(markers) : markers[0]
 
-    // create map
-    this.map = L.map( id, {
-      center: [ position.latitude, position.longitude ],
-      zoom: 11,
+    const config = {
       layers: [
-        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        Leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
         }),
       ],
+      center: [ position.latitude, position.longitude ],
+      zoom: 11,
+      minZoom: 1,
       ...this.props.leafletConfig,
-    })
+    }
 
-    markers.map(marker =>
-      L.marker([ marker.position.latitude, marker.position.longitude ])
-        .bindPopup( marker.name )
-        .addTo(this.map)
-    )
+    this.createMap(config, id)
+    this.createMarkers(markers, id)
+
   }
 
   render () {
@@ -66,12 +78,15 @@ class Map extends React.Component {
     } = this.props
 
     return (
-      <div className={style.mapContainer}>
-        <div className={classnames( style.map, { [style.mapWidget]: widget })} id={id} />
+      <div className={style.container}>
+        <div className={classnames(
+          style.map,
+          { [style.widget]: widget },
+        )} id={id}
+        />
       </div>
     )
   }
 }
 
 export default Map
-

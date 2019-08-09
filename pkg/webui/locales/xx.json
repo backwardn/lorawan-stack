@@ -89,6 +89,7 @@
   "console.containers.collaborators-table.index.id": "Xxxx / Xxxxxxxxxxxx XX",
   "console.containers.device-map.index.location": "Xxxxxxxx",
   "console.containers.device-map.index.changeLocation": "Xxxxxx Xxxxxxxx",
+  "console.containers.device-map.index.noLocation": "Xx xxxxxxxx xxxxxxxxxxx xxxxxxxxx",
   "console.containers.freq-plans-select.index.freqPlansFetchingFailure": "Xxxxx xxx xxxxxxxx xxx xxxx xx xxxxxxxxx xxxxxxxxx xxxxx",
   "console.containers.webhook-formats-select.index.formatFetchingFailure": "Xxxxx xxx xxxxxxxx xxx xxxx xx xxxxxxxxx xxxxxxx xxxxxxx",
   "console.containers.webhooks-table.index.format": "Xxxxxx",

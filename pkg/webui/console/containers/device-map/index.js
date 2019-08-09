@@ -25,20 +25,48 @@ import style from './device-map.styl'
 const m = defineMessages({
   location: 'Location',
   changeLocation: 'Change Location',
+  noLocation: 'No location information available',
 })
 
 class DeviceMapWidget extends React.Component {
+
+  get deviceMap () {
+    const {
+      locations,
+    } = this.props
+
+    const leafletConfig = {
+      zoomControl: false,
+    }
+
+    const markers = locations
+      ? [
+        {
+          position: {
+            latitude: ( locations.user.latitude || 0),
+            longitude: ( locations.user.longitude || 0),
+          },
+        },
+      ] : false
+
+    return (
+      markers ? (
+        <Map id="device-map-widget" markers={markers} leafletConfig={leafletConfig} widget />
+      ) : (
+        <div className={style.mapDisabled}>
+          <h4>{m.noLocation.defaultMessage}</h4>
+        </div>
+      )
+    )
+  }
+
   render () {
     const {
       devIds,
-      markers,
     } = this.props
 
     const devId = getDeviceId(devIds)
     const appId = getApplicationId(devIds)
-    const leafletConfig = {
-      zoomControl: false,
-    }
 
     return (
       <aside className={style.wrapper}>
@@ -55,7 +83,7 @@ class DeviceMapWidget extends React.Component {
             →
           </Link>
         </div>
-        <Map id="device-map-widget" markers={markers} leafletConfig={leafletConfig} widget />
+        {this.deviceMap}
       </aside>
     )
   }
