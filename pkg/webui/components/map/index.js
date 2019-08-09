@@ -35,12 +35,13 @@ class Map extends React.Component {
 
   componentDidMount () {
     const {
+      id,
       markers,
     } = this.props
     const { position } = ( markers.length >= 1 ) ? this.getMapCenter(markers) : markers[0]
 
     // create map
-    this.map = L.map('map', {
+    this.map = L.map( id, {
       center: [ position.latitude, position.longitude ],
       zoom: 11,
       layers: [
@@ -60,12 +61,13 @@ class Map extends React.Component {
 
   render () {
     const {
+      id,
       widget,
     } = this.props
 
     return (
       <div className={style.mapContainer}>
-        <div className={classnames( style.map, { [style.mapWidget]: widget })} id="map" />
+        <div className={classnames( style.map, { [style.mapWidget]: widget })} id={id} />
       </div>
     )
   }

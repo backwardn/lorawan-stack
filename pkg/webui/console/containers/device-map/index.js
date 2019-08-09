@@ -55,7 +55,7 @@ class DeviceMapWidget extends React.Component {
             →
           </Link>
         </div>
-        <Map markers={markers} leafletConfig={leafletConfig} widget />
+        <Map id="device-map-widget" markers={markers} leafletConfig={leafletConfig} widget />
       </aside>
     )
   }
